@@ -94,6 +94,11 @@ app.get('/:tinyUrlPath', async (req, res, next) => {
 });
 
 
+app.use((req, res) => {
+    res.redirect("/api-docs");
+});
+
+
 server = app.listen(PORT, function () {
     console.log(`TinyURL Server listening.. Access it using address: ${SERVER_URL}`);
 });
