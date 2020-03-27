@@ -7,7 +7,7 @@ const swaggerOptions = {
             version: '1.0.0',
         },
         host: 'https://tinyurl3.herokuapp.com',
-        basePath: '/',
+        basePath: '/api-docs',
         produces: [
             "application/json",
         ],
