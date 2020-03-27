@@ -6,7 +6,7 @@ const express         = require("express"),
       bodyParser      = require("body-parser"),
       mongoose        = require("mongoose"),
       shortid         = require("shortid");
-      isUrl           = require("is-url");
+      isValidUrl      = require("is-url");
       TinyURL         = require("./models/TinyURL"),
       swaggerOptions  = require("./swagger/index.js"),
       app             = express();
@@ -39,32 +39,28 @@ app.get('/', async (req, res, next) => {
 
 /**
  * This function comment is parsed by doctrine
- * @route POST /url
+ * @route POST /new
  * @group TinyURL
- * @param {string} originalURL.query.required - Original URL / Full URL , for example: http://www.google.com
+ * @param {string} fullURL.query.required - Original URL / Full URL , for example: http://www.google.com
  * @returns {TinyURL} 200 - TinyURL
  */
-app.post('/url', async (req, res, next) => {
-    const {originalURL} = req.query;
-    TinyURL.findOne({originalURL: originalURL}, (err, URL) => {
-        if (err){
-            console.log(err);
-            res.status(500).json("Error")
-        } else if (URL) {
-            res.json(URL);
-        } else if (isUrl(originalURL) || isUrl(`http://${originalURL}`) || isUrl(`http://${originalURL}`)) {
-            let randomID = shortid.generate();
-            let newURL = { originalURL: originalURL, tinyURL: `${SERVER_URL}/${randomID}`, shortid: randomID};
-            TinyURL.create(newURL, (err, URL) => {
-                if (err){
-                    console.log(err);
-                    res.status(500).json("Error")
-                } else {
-                    res.json(URL);
-                }
-            });
-        } else res.status(500).json("Error: not a vaild url");
-    });
+
+app.post('/new', async (req, res) => {
+    const {fullURL} = req.query;
+    try {
+        const tinyURL = await TinyURL.findOne({fullURL});
+        if (tinyURL){ // Check if URL is already exist
+            res.json(tinyURL)
+        } else {
+            let randomID = shortid.generate();   // Generate unique id and create TinyURL
+            let tinyURL = { fullURL, tinyURL: `${SERVER_URL}/${randomID}`, shortid: randomID};
+            const newTinyURL = await TinyURL.create(tinyURL);
+            res.json(newTinyURL)
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json("Error")
+    }
 });
 
 
@@ -73,25 +69,27 @@ app.post('/url', async (req, res, next) => {
  * @route GET /{tinyUrlPath}
  * @group TinyURL
  * @param {string} tinyUrlPath.path.required - TinyURLPath, for example: "a4kLcz"
- * @returns {object} 200 - TinyURL
+ * @produces text/html
+ * @returns {object} 200 - Redirect to Full URL
  */
-app.get('/:tinyUrlPath', async (req, res, next) => {
+
+app.get('/:tinyUrlPath', async (req, res) => {
     const {tinyUrlPath} = req.params;
-    TinyURL.findOne({shortid: tinyUrlPath}, (err, URL) => {
-        if (err){
-            console.log(err, 'Error during get TinyURL');
-            res.status(500).send('Error during get TinyURL');
-        } else {
-            if (URL){
-                const {originalURL} = URL;
-                if (isUrl(originalURL)){
-                    res.redirect(originalURL);
-                }
-                else res.redirect(`//${originalURL}`);
-            }
-            else res.json("");
-        }
-    });
+    try {
+        const URL = await TinyURL.findOne({shortid: tinyUrlPath});
+        /*****************************************************************
+          if we found TinyUrl in the DB we'll redirect to the full url,
+          based on if the domain has www or http:// prefix, or not. 
+        ******************************************************************/
+        if (URL){ 
+            const {fullURL} = URL;
+            if (isValidUrl(fullURL)){
+                res.redirect(fullURL);
+            } else res.redirect(`//${fullURL}`);
+        } else res.json(URL);
+    } catch (e) {
+        res.status(500).json("Error")
+    }
 });
 
 
@@ -103,3 +101,5 @@ app.use((req, res) => {
 server = app.listen(PORT, function () {
     console.log(`TinyURL Server listening.. Access it using address: ${SERVER_URL}`);
 });
+
+

@@ -10,6 +10,8 @@ const swaggerOptions = {
         basePath: '/',
         produces: [
             "application/json",
+            "text/html",
+            "text/plain"
         ],
         paths: {}
     },
