@@ -70,7 +70,7 @@ app.post('/url', async (req, res, next) => {
 
 /**
  * This function comment is parsed by doctrine
- * @route GET /:tinyUrlPath
+ * @route GET /{tinyUrlPath}
  * @group TinyURL
  * @param {string} tinyUrlPath.path.required - TinyURLPath, for example: "a4kLcz"
  * @returns {object} 200 - TinyURL
