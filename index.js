@@ -42,6 +42,7 @@ app.get('/', async (req, res, next) => {
  * @route POST /url
  * @group TinyURL
  * @param {string} originalURL.query.required - Original URL / Full URL , for example: http://www.google.com
+ * @returns {TinyURL} 200 - TinyURL
  */
 app.post('/url', async (req, res, next) => {
     const {originalURL} = req.query;
@@ -51,7 +52,7 @@ app.post('/url', async (req, res, next) => {
             res.status(500).json("Error")
         } else if (URL) {
             res.json(URL);
-        } else {
+        } else if (isUrl(originalURL) || isUrl(`http://${originalURL}`) || isUrl(`http://${originalURL}`)) {
             let randomID = shortid.generate();
             let newURL = { originalURL: originalURL, tinyURL: `${SERVER_URL}/${randomID}`, shortid: randomID};
             TinyURL.create(newURL, (err, URL) => {
@@ -62,7 +63,7 @@ app.post('/url', async (req, res, next) => {
                     res.json(URL);
                 }
             });
-        } 
+        } else res.status(500).json("Error: not a vaild url");
     });
 });
 
