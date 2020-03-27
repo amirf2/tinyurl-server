@@ -6,7 +6,7 @@ const swaggerOptions = {
             title: 'TinyURL API',
             version: '1.0.0',
         },
-        host: 'localhost:8000',
+        host: 'http://tinyurl3.herokuapp.com',
         basePath: '/',
         produces: [
             "application/json",
