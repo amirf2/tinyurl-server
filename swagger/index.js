@@ -10,7 +10,8 @@ const swaggerOptions = {
         basePath: '/',
         produces: [
             "application/json",
-        ]
+        ],
+        paths: {}
     },
     basedir: __dirname, //app absolute path
     files: ['../index.js', '../models/*'] //Path to the API handle folder
