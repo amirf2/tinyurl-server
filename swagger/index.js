@@ -7,14 +7,15 @@ const swaggerOptions = {
             version: '1.0.0',
         },
         host: 'https://tinyurl3.herokuapp.com',
-        basePath: '/api-docs',
+        basePath: '/',
         produces: [
             "application/json",
         ],
         paths: {}
     },
     basedir: __dirname, //app absolute path
-    files: ['../index.js', '../models/*'] //Path to the API handle folder
+    files: ['../index.js', '../models/*'], //Path to the API handle folder
+    paths: {}
 };
 
 module.exports = swaggerOptions;
