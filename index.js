@@ -41,7 +41,7 @@ app.get('/', async (req, res, next) => {
  * This function comment is parsed by doctrine
  * @route POST /new
  * @group TinyURL
- * @param {string} fullURL.query.required - Original URL / Full URL , for example: http://www.google.com
+ * @param {string} fullURL.query.required - Original URL / Full URL , for example: /new?fullURL=http://www.google.com
  * @returns {TinyURL} 200 - TinyURL
  */
 
@@ -68,7 +68,7 @@ app.post('/new', async (req, res) => {
  * This function comment is parsed by doctrine
  * @route GET /{tinyUrlPath}
  * @group TinyURL
- * @param {string} tinyUrlPath.path.required - TinyURLPath, for example: "a4kLcz"
+ * @param {string} tinyUrlPath.path.required - TinyURLPath, for example: /a4kLcz
  * @produces text/html
  * @returns {object} 200 - Redirect to Full URL
  */
