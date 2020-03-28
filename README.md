@@ -7,9 +7,8 @@
 ## Live Demo
 To see the app in action, go to [TinyUrl](https://tinyurl3.herokuapp.com/)
 
-### Getting Started
+## Installation
 
-* Running:
   * Clone/Download this repo.
   * Execute in CMD\Terminal:
     ```
