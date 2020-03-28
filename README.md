@@ -5,7 +5,7 @@
 > a Node.js Server, that provides shortening url service
 
 ## Live Demo
-To see the app in action, go to [TinyUrl](https://tinyurl3.herokuapp.com/)
+To see the server in action, go to [TinyUrl](https://tinyurl3.herokuapp.com/)
 
 ## Installation
 
