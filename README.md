@@ -18,6 +18,9 @@ To see the server in action, go to [TinyUrl](https://tinyurl3.herokuapp.com/)
   * Server should run under http://localhost:8000
 
 
-### Swagger Api
+## Swagger Api
   * Navigate to [TinyURL Swagger API](https://tinyurl3.herokuapp.com/api-docs) or to /api-docs if  you run the server locally from your computer.
+  
+  
+  ##### ClientSide: please review [TinyUrlClient](https://github.com/amirf2/tinyurl-client)
 
