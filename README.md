@@ -16,6 +16,7 @@ To see the server in action, go to [TinyUrl](https://tinyurl3.herokuapp.com/)
     npm start
     ``` 
   * Server should run under http://localhost:8000
+  * Optional - edit .env file with your own Port, Server URL and MongoDB url preferences 
 
 
 ## Swagger Api
