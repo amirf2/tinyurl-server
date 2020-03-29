@@ -74,9 +74,8 @@ app.post('/url/new', async (req, res) => {
         if (tinyURL){ // Check if URL is already exist
             res.json(tinyURL)
         } else {
-            let shortid = shortid.generate();   // Generate unique id and create TinyURL
-            let tinyURL = {fullURL, tinyURL: `${SERVER_URL}/${randomID}`, shortid};
-            console.log(tinyURL);
+            let randomID = shortid.generate();   // Generate unique id and create TinyURL
+            let tinyURL = { fullURL: fullURL, tinyURL: `${SERVER_URL}/${randomID}`, shortid: randomID};
             const newTinyURL = await TinyURL.create(tinyURL);
             res.json(newTinyURL)
         }
