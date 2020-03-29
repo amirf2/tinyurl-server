@@ -78,7 +78,7 @@ app.post('/url/new', async (req, res) => {
             let tinyURL = { fullURL: fullURL, tinyURL: `${SERVER_URL}/${randomID}`, shortid: randomID};
             const newTinyURL = await TinyURL.create(tinyURL);
             res.json(newTinyURL)
-        } else res.json("");
+        } else res.json("fullURL is not a valid url");
     } catch (e) {
         console.log(e);
         res.status(500).json("Error")
