@@ -89,17 +89,17 @@ app.post('/url/new', async (req, res) => {
 
 /**
  * This function comment is parsed by doctrine
- * @route GET /{tinyUrlID}
+ * @route GET /{shortid}
  * @group TinyURL
- * @param {string} tinyUrlID.path.required - tinyUrlID, for example: /a4kLcz
+ * @param {string} shortid.path.required - shortid, for example: /a4kLcz
  * @produces text/html
  * @returns {object} 200 - Redirect to Full URL
  */
 
-app.get('/:tinyUrlID', async (req, res) => {
-    const {tinyUrlID} = req.params;
+app.get('/:shortid', async (req, res) => {
+    const {shortid} = req.params;
     try {
-        const URL = await TinyURL.findOne({shortid: tinyUrlID});
+        const URL = await TinyURL.findOne({shortid});
         /*****************************************************************
           if we found TinyUrl in the DB we'll redirect to the full url,
           based on if the domain has www or http:// prefix, or not. 
