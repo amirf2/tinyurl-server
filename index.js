@@ -18,8 +18,8 @@ const express         = require("express"),
 
 
 expressSwagger(swaggerOptions)
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cors());
 
 
@@ -37,16 +37,29 @@ app.get('/', async (req, res, next) => {
 });
 
 
+app.get('/url/:shortid', async (req, res, next) => {
+    const {shortid} = req.params;
+    try {
+        const URL = await TinyURL.findOne({shortid});
+        res.json(URL)
+    } catch (e) {
+        console.log(e);
+        res.status(500).json("Error")
+    }
+});
+
+
+
 /**
  * This function comment is parsed by doctrine
- * @route POST /new
+ * @route POST /url/new
  * @group TinyURL
- * @param {string} fullURL.query.required - Original URL / Full URL , for example: /new?fullURL=http://www.google.com
- * @returns {TinyURL} 200 - TinyURL
+ * @param {FullURL.model} fullURL.body.required - for example: {"fullURL" :"http://www.google.com"};
+ * @returns {TinyURL.model} 200 - TinyURL
  */
 
-app.post('/new', async (req, res) => {
-    const {fullURL} = req.query;
+app.post('/url/new', async (req, res) => {
+    const {fullURL} = req.body;
     try {
         const tinyURL = await TinyURL.findOne({fullURL});
         if (tinyURL){ // Check if URL is already exist
@@ -64,19 +77,20 @@ app.post('/new', async (req, res) => {
 });
 
 
+
 /**
  * This function comment is parsed by doctrine
- * @route GET /{tinyUrlPath}
+ * @route GET /{tinyUrlID}
  * @group TinyURL
- * @param {string} tinyUrlPath.path.required - TinyURLPath, for example: /a4kLcz
+ * @param {string} tinyUrlID.path.required - tinyUrlID, for example: /a4kLcz
  * @produces text/html
  * @returns {object} 200 - Redirect to Full URL
  */
 
-app.get('/:tinyUrlPath', async (req, res) => {
-    const {tinyUrlPath} = req.params;
+app.get('/:tinyUrlID', async (req, res) => {
+    const {tinyUrlID} = req.params;
     try {
-        const URL = await TinyURL.findOne({shortid: tinyUrlPath});
+        const URL = await TinyURL.findOne({shortid: tinyUrlID});
         /*****************************************************************
           if we found TinyUrl in the DB we'll redirect to the full url,
           based on if the domain has www or http:// prefix, or not. 

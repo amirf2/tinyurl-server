@@ -6,10 +6,19 @@ const mongoose = require("mongoose");
  * @property {string} tinyURL.required
  * @property {string} shortid.required
  */
+
 const tinyURLSchema = new mongoose.Schema({
     fullURL: String,
     tinyURL: String,
     shortid: String
 });
 
+
+/**
+ * @typedef FullURL
+ * @property {string} FullURL.required
+ */
+
 module.exports = mongoose.model("TinyURL", tinyURLSchema);
+
+
