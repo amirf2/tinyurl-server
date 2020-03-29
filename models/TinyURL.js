@@ -16,7 +16,7 @@ const tinyURLSchema = new mongoose.Schema({
 
 /**
  * @typedef FullURL
- * @property {string} FullURL.required
+ * @property {string} fullURL.required
  */
 
 module.exports = mongoose.model("TinyURL", tinyURLSchema);
