@@ -42,7 +42,7 @@ app.get('/', async (req, res, next) => {
  * This function comment is parsed by doctrine
  * @route GET /url/{shortid}
  * @group TinyURL
- * @param {string} fullURL.path.required - for example: aZ49Ks
+ * @param {string} shortid.path.required - for example: aZ49Ks
  * @returns {TinyURL.model} 200 - TinyURL
  */
 
