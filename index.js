@@ -73,12 +73,12 @@ app.post('/url/new', async (req, res) => {
         const tinyURL = await TinyURL.findOne({fullURL});
         if (tinyURL){ // Check if URL is already exist
             res.json(tinyURL)
-        } else {
+        } else if (isValidUrl(fullURL) || isValidUrl(`http://${fullURL}`) || isValidUrl(`https://${fullURL}`)) {
             let randomID = shortid.generate();   // Generate unique id and create TinyURL
             let tinyURL = { fullURL: fullURL, tinyURL: `${SERVER_URL}/${randomID}`, shortid: randomID};
             const newTinyURL = await TinyURL.create(tinyURL);
             res.json(newTinyURL)
-        }
+        } else res.json("");
     } catch (e) {
         console.log(e);
         res.status(500).json("Error")
